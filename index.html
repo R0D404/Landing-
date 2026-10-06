@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio de Rodrigo González Morales, estudiante de Ing. Tecnologías de la Información e Innovación Digital." />
+  <title>Rodrigo González Morales</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ENCABEZADO DEL SITIO -->
+  <header class="site-header">
+    <nav class="navbar" aria-label="Navegación principal">
+      <a href="#inicio" class="logo" aria-label="Inicio - RGM">RGM</a>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+        &#9776;
+      </button>
+      <ul class="nav-links" id="navLinks" role="list">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#habilidades">Habilidades</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+
+    <!-- SECCIÓN HERO / PRESENTACIÓN -->
+    <section class="hero" id="inicio" aria-labelledby="hero-heading">
+      <figure class="hero-img">
+        <img src="foto.jpg" alt="Fotografía de Rodrigo González Morales" id="profilePic" />
+      </figure>
+      <div class="hero-text">
+        <h1 id="hero-heading">Rodrigo González Morales</h1>
+        <p class="tag">Estudiante de Ing. Tecnologías de la Información e Innovación Digital</p>
+        <p class="desc">Actualmente cursando el <strong>4to cuatrimestre</strong>. Apasionado por el desarrollo web, la programación y la tecnología.</p>
+        <a href="#proyectos" class="btn">Ver proyectos</a>
+      </div>
+    </section>
+
+    <!-- SECCIÓN PROYECTOS -->
+    <section class="section" id="proyectos" aria-labelledby="proyectos-heading">
+      <h2 class="section-title" id="proyectos-heading">Proyectos</h2>
+      <div class="cards" role="list">
+
+        <article class="card" role="listitem">
+          <span class="card-icon" aria-hidden="true">🐝</span>
+          <h3>SAM</h3>
+          <p class="card-sub">Smart Apiary Monitoring</p>
+          <p>Sistema inteligente de monitoreo de colmenas que permite supervisar en tiempo real el estado de los apiarios.</p>
+        </article>
+
+        <article class="card" role="listitem">
+          <span class="card-icon" aria-hidden="true">⚡</span>
+          <h3>Z-Core</h3>
+          <p class="card-sub">Sistema de alto rendimiento</p>
+          <p>Proyecto de arquitectura robusta enfocado en rendimiento, escalabilidad y eficiencia del sistema.</p>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECCIÓN HABILIDADES -->
+    <section class="section alt" id="habilidades" aria-labelledby="habilidades-heading">
+      <h2 class="section-title" id="habilidades-heading">Habilidades</h2>
+      <ul class="skills-grid" role="list" aria-label="Lista de habilidades técnicas">
+        <li class="skill-item"><span class="skill-icon" aria-hidden="true">🌐</span><span>HTML</span></li>
+        <li class="skill-item"><span class="skill-icon" aria-hidden="true">🎨</span><span>CSS</span></li>
+        <li class="skill-item"><span class="skill-icon" aria-hidden="true">⚙️</span><span>JavaScript</span></li>
+        <li class="skill-item"><span class="skill-icon" aria-hidden="true">🔧</span><span>C</span></li>
+        <li class="skill-item"><span class="skill-icon" aria-hidden="true">🔩</span><span>C++</span></li>
+        <li class="skill-item"><span class="skill-icon" aria-hidden="true">☕</span><span>Java</span></li>
+        <li class="skill-item"><span class="skill-icon" aria-hidden="true">🌐</span><span>Cisco Packet Tracer</span></li>
+      </ul>
+    </section>
+
+    <!-- SECCIÓN CONTACTO -->
+    <section class="section" id="contacto" aria-labelledby="contacto-heading">
+      <h2 class="section-title" id="contacto-heading">Contacto</h2>
+      <p class="contact-desc">¿Quieres colaborar o tienes alguna pregunta? Escríbeme.</p>
+      <address>
+        <a class="contact-email" href="mailto:253696@it2id.upchiamas.edu.mx">
+          <span aria-hidden="true">✉️</span> 253696@it2id.upchiamas.edu.mx
+        </a>
+      </address>
+    </section>
+
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="site-footer">
+    <p><small>&copy; 2026 Rodrigo González Morales</small></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
