@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .border { stroke: #94a3b8; stroke-width: 1.5; stroke-dasharray: 4 4; fill: #ffffff; }
+      .box { stroke: #64748b; stroke-width: 1.5; fill: #e2e8f0; }
+      .text-title { font-family: monospace, sans-serif; font-size: 24px; font-weight: bold; fill: #1e293b; }
+      .text-sub { font-family: monospace, sans-serif; font-size: 14px; fill: #475569; }
+      .text-tag { font-family: monospace, sans-serif; font-size: 11px; font-weight: bold; fill: #64748b; }
+      .pill { rx: 16; stroke: #94a3b8; stroke-width: 1.5; fill: #e2e8f0; }
+    </style>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1200" height="900" class="bg"/>
+
+  <!-- Frame Label -->
+  <text x="40" y="35" class="text-tag">[FIGMA FRAME: Desktop - Wireframe (1200x900)]</text>
+
+  <!-- Navbar -->
+  <rect x="40" y="50" width="1120" height="60" class="box"/>
+  <text x="60" y="87" class="text-title" font-size="18">[LOGO: RGM]</text>
+  <rect x="750" y="65" width="80" height="30" rx="4" class="border"/>
+  <text x="765" y="85" class="text-sub">Inicio</text>
+  <rect x="845" y="65" width="95" height="30" rx="4" class="border"/>
+  <text x="857" y="85" class="text-sub">Proyectos</text>
+  <rect x="955" y="65" width="105" height="30" rx="4" class="border"/>
+  <text x="965" y="85" class="text-sub">Habilidades</text>
+  <rect x="1075" y="65" width="75" height="30" rx="4" class="border"/>
+  <text x="1085" y="85" class="text-sub">Contacto</text>
+
+  <!-- Hero Section -->
+  <rect x="40" y="130" width="1120" height="260" class="border"/>
+  <!-- Photo Placeholder -->
+  <circle cx="170" cy="260" r="85" class="box"/>
+  <line x1="110" y1="200" x2="230" y2="320" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="230" y1="200" x2="110" y2="320" stroke="#94a3b8" stroke-width="2"/>
+  <text x="125" y="265" class="text-tag">[FOTO 220x220]</text>
+
+  <!-- Hero Info -->
+  <text x="300" y="200" class="text-title">Rodrigo González Morales</text>
+  <rect x="300" y="215" width="450" height="24" rx="4" class="box"/>
+  <text x="310" y="232" class="text-sub">Estudiante Ing. TI e Innovación Digital (4to Cuatrimestre)</text>
+  <rect x="300" y="250" width="580" height="40" rx="4" class="border"/>
+  <text x="310" y="275" class="text-sub">Descripción del estudiante y perfil profesional...</text>
+  <rect x="300" y="305" width="150" height="36" rx="18" fill="#475569"/>
+  <text x="330" y="328" font-family="monospace, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">[Ver proyectos]</text>
+
+  <!-- Proyectos Section -->
+  <text x="540" y="425" class="text-title">Proyectos</text>
+  <line x1="560" y1="435" x2="640" y2="435" stroke="#475569" stroke-width="3"/>
+
+  <!-- Card 1: SAM -->
+  <rect x="140" y="460" width="440" height="150" rx="8" class="box"/>
+  <rect x="160" y="475" width="40" height="40" rx="6" class="border"/>
+  <text x="172" y="500" class="text-title" font-size="16">🐝</text>
+  <text x="215" y="495" class="text-title" font-size="18">SAM</text>
+  <text x="215" y="512" class="text-tag">SMART APIARY MONITORING</text>
+  <rect x="160" y="530" width="400" height="60" rx="4" class="border"/>
+  <text x="170" y="555" class="text-sub">Sistema de monitoreo de colmenas en tiempo real.</text>
+
+  <!-- Card 2: Z-Core -->
+  <rect x="620" y="460" width="440" height="150" rx="8" class="box"/>
+  <rect x="640" y="475" width="40" height="40" rx="6" class="border"/>
+  <text x="652" y="500" class="text-title" font-size="16">⚡</text>
+  <text x="695" y="495" class="text-title" font-size="18">Z-Core</text>
+  <text x="695" y="512" class="text-tag">HIGH PERFORMANCE ARCHITECTURE</text>
+  <rect x="640" y="530" width="400" height="60" rx="4" class="border"/>
+  <text x="650" y="555" class="text-sub">Arquitectura de alto rendimiento y eficiencia.</text>
+
+  <!-- Habilidades Section -->
+  <rect x="40" y="635" width="1120" height="120" class="border"/>
+  <text x="530" y="665" class="text-title">Habilidades</text>
+  <!-- Pills -->
+  <g transform="translate(180, 685)">
+    <rect x="0" y="0" width="100" height="32" class="pill"/>
+    <text x="20" y="21" class="text-sub">🌐 HTML</text>
+    <rect x="115" y="0" width="90" height="32" class="pill"/>
+    <text x="135" y="21" class="text-sub">🎨 CSS</text>
+    <rect x="220" y="0" width="80" height="32" class="pill"/>
+    <text x="245" y="21" class="text-sub">⚙️ JS</text>
+    <rect x="315" y="0" width="70" height="32" class="pill"/>
+    <text x="340" y="21" class="text-sub">🔧 C</text>
+    <rect x="400" y="0" width="80" height="32" class="pill"/>
+    <text x="420" y="21" class="text-sub">🔩 C++</text>
+    <rect x="495" y="0" width="90" height="32" class="pill"/>
+    <text x="515" y="21" class="text-sub">☕ Java</text>
+    <rect x="600" y="0" width="190" height="32" class="pill"/>
+    <text x="615" y="21" class="text-sub">🌐 Cisco Packet Tracer</text>
+  </g>
+
+  <!-- Contacto Section -->
+  <text x="545" y="790" class="text-title">Contacto</text>
+  <rect x="350" y="805" width="500" height="45" rx="8" class="box"/>
+  <text x="430" y="833" class="text-sub">✉️ 253696@it2id.upchiamas.edu.mx</text>
+
+  <!-- Footer -->
+  <text x="500" y="880" class="text-tag">&copy; 2026 Rodrigo González Morales</text>
+</svg>

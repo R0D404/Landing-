@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modelado Figma - Landing Page (Rodrigo González Morales)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --figma-bg: #1e1e1e;
+      --figma-panel: #2c2c2c;
+      --figma-border: #383838;
+      --figma-accent: #0d99ff;
+      --figma-text: #ffffff;
+      --figma-text-dim: #999999;
+      --wf-bg: #f8f9fa;
+      --wf-border: #718096;
+      --wf-box: #e2e8f0;
+      --wf-text: #2d3748;
+      --wf-line: #a0aec0;
+      --app-blue: #3aabdf;
+      --app-blue-dark: #1e88c4;
+      --app-blue-light: #e4f3fc;
+      --app-bg: #f0f8ff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--figma-bg);
+      color: var(--figma-text);
+      min-height: 100vh;
+      overflow-x: auto;
+    }
+
+    /* BARRA SUPERIOR ESTILO FIGMA */
+    .figma-topbar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      height: 48px;
+      background: var(--figma-panel);
+      border-bottom: 1px solid var(--figma-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      user-select: none;
+    }
+
+    .figma-tools {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .figma-logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #fff;
+    }
+
+    .figma-badge {
+      width: 22px;
+      height: 22px;
+      background: linear-gradient(135deg, #f24e1e, #a259ff 50%, #0acf83);
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .file-name {
+      font-size: 0.85rem;
+      color: var(--figma-text);
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .figma-btn-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .figma-btn {
+      background: transparent;
+      border: 1px solid var(--figma-border);
+      color: var(--figma-text-dim);
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .figma-btn:hover, .figma-btn.active {
+      background: #383838;
+      color: #fff;
+      border-color: #555;
+    }
+
+    .figma-btn.accent {
+      background: var(--figma-accent);
+      color: white;
+      border-color: var(--figma-accent);
+      font-weight: 600;
+    }
+
+    /* CANVAS DE TRABAJO (FIGMA BOARD) */
+    .figma-canvas {
+      padding: 2.5rem 2rem 5rem;
+      min-width: 1700px;
+      background-image: 
+        radial-gradient(circle, #333 1px, transparent 1px);
+      background-size: 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 3.5rem;
+    }
+
+    .canvas-section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #e0e0e0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 8px;
+    }
+
+    .badge-label {
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-wireframe {
+      background: #4a5568;
+      color: #edf2f7;
+    }
+
+    .badge-final {
+      background: #0284c7;
+      color: #e0f2fe;
+    }
+
+    .frames-row {
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+
+    /* FRAME CONTAINER */
+    .figma-frame-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .frame-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4px;
+    }
+
+    .frame-title {
+      font-size: 0.85rem;
+      color: var(--figma-text-dim);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .frame-dim {
+      font-size: 0.75rem;
+      color: #666;
+      font-family: monospace;
+    }
+
+    /* FRAME DISPOSITIVOS */
+    .device-desktop {
+      width: 1060px;
+      min-height: 980px;
+      border-radius: 8px;
+      background: #fff;
+      color: #1a1a2e;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.45);
+      border: 1px solid #444;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .device-mobile {
+      width: 380px;
+      min-height: 980px;
+      border-radius: 36px;
+      background: #fff;
+      color: #1a1a2e;
+      box-shadow: 0 14px 45px rgba(0,0,0,0.55);
+      border: 9px solid #2d3138;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* MOCKUP MÓVIL HARDWARE NOTCH */
+    .mobile-notch {
+      width: 120px;
+      height: 20px;
+      background: #2d3138;
+      border-radius: 0 0 12px 12px;
+      margin: 0 auto;
+      z-index: 50;
+      position: sticky;
+      top: 0;
+    }
+
+    /* ==============================================================
+       1. ESTILOS DE MAQUETADO / WIREFRAME (BAJA FIDELIDAD)
+       ============================================================== */
+    .wireframe-view {
+      background: var(--wf-bg);
+      color: var(--wf-text);
+      font-family: "Courier New", Courier, monospace, sans-serif;
+    }
+
+    .wf-nav {
+      border-bottom: 2px dashed var(--wf-border);
+      padding: 0.9rem 1.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+    }
+
+    .wf-box {
+      border: 1.5px solid var(--wf-border);
+      background: var(--wf-box);
+      color: var(--wf-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 4px;
+    }
+
+    .wf-tag-label {
+      color: #4a5568;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: bold;
+    }
+
+    .wf-hero-desktop {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2.5rem;
+      padding: 3rem 2.5rem;
+      border-bottom: 2px dashed var(--wf-border);
+      align-items: center;
+      background: #fafafa;
+    }
+
+    .wf-placeholder-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 2px dashed var(--wf-border);
+      background: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: #4a5568;
+      position: relative;
+    }
+
+    .wf-placeholder-img::before, .wf-placeholder-img::after {
+      content: "";
+      position: absolute;
+      background: rgba(113, 128, 150, 0.25);
+    }
+
+    .wf-section {
+      padding: 2.5rem;
+      border-bottom: 2px dashed var(--wf-border);
+    }
+
+    .wf-section-title {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wf-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .wf-card {
+      border: 1.5px solid var(--wf-border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .wf-skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .wf-skill-badge {
+      padding: 0.45rem 1rem;
+      border: 1.5px dashed var(--wf-border);
+      background: #edf2f7;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .wf-contact-box {
+      border: 2px dashed var(--wf-border);
+      background: #fff;
+      padding: 1.8rem;
+      text-align: center;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* WIREFRAME MÓVIL ESPECÍFICO */
+    .wf-mobile-nav {
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px dashed var(--wf-border);
+      background: #fff;
+    }
+
+    .wf-mobile-hero {
+      padding: 2rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.2rem;
+      border-bottom: 2px dashed var(--wf-border);
+    }
+
+    .wf-mobile-hero .wf-placeholder-img {
+      width: 140px;
+      height: 140px;
+    }
+
+    .wf-mobile-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* ==============================================================
+       2. ESTILOS DE DISEÑO TERMINADO (ALTA FIDELIDAD: CELESTE + BLANCO)
+       ============================================================== */
+    .final-view {
+      background: var(--app-bg);
+      color: #1a1a2e;
+      font-family: sans-serif;
+    }
+
+    /* Navbar final */
+    .fn-nav {
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid #b8ddf0;
+      padding: 0.9rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .fn-logo {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--app-blue);
+      text-decoration: none;
+    }
+
+    .fn-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      font-size: 0.88rem;
+    }
+
+    .fn-links a {
+      color: #5a7a8a;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .fn-links a.active {
+      color: var(--app-blue-dark);
+      font-weight: bold;
+    }
+
+    /* Hero final */
+    .fn-hero {
+      background: linear-gradient(160deg, #d6eeff 0%, #ffffff 60%);
+      padding: 3.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      border-bottom: 1px solid #b8ddf0;
+    }
+
+    .fn-photo-circle {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      border: 4px solid var(--app-blue);
+      background: linear-gradient(135deg, #3aabdf, #1e88c4);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(58, 171, 223, 0.25);
+      font-weight: bold;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .fn-hero-text h1 {
+      font-size: 1.9rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+      color: #1a1a2e;
+    }
+
+    .fn-hero-tag {
+      color: var(--app-blue-dark);
+      font-weight: bold;
+      font-size: 0.92rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .fn-hero-desc {
+      color: #5a7a8a;
+      font-size: 0.92rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.5;
+    }
+
+    .fn-btn {
+      display: inline-block;
+      background: var(--app-blue);
+      color: white;
+      padding: 0.65rem 1.6rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: bold;
+      box-shadow: 0 3px 10px rgba(58, 171, 223, 0.3);
+    }
+
+    /* Secciones final */
+    .fn-section {
+      padding: 3rem 2.5rem;
+      border-bottom: 1px solid #b8ddf0;
+    }
+
+    .fn-section.alt {
+      background: var(--app-blue-light);
+    }
+
+    .fn-section-title {
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .fn-section-title::after {
+      content: '';
+      display: block;
+      width: 45px;
+      height: 3px;
+      background: var(--app-blue);
+      margin: 0.4rem auto 0;
+      border-radius: 2px;
+    }
+
+    /* Tarjetas final */
+    .fn-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .fn-card {
+      background: #ffffff;
+      border: 1px solid #b8ddf0;
+      border-radius: 12px;
+      padding: 1.6rem;
+      box-shadow: 0 4px 14px rgba(58, 171, 223, 0.08);
+    }
+
+    .fn-card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .fn-card h3 {
+      font-size: 1.15rem;
+      font-weight: bold;
+      margin-bottom: 0.2rem;
+    }
+
+    .fn-card-sub {
+      color: var(--app-blue-dark);
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.05em;
+    }
+
+    .fn-card p {
+      color: #5a7a8a;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    /* Skills final */
+    .fn-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .fn-skill-badge {
+      background: #ffffff;
+      border: 1px solid #b8ddf0;
+      border-radius: 999px;
+      padding: 0.5rem 1.1rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Contacto final */
+    .fn-contact {
+      text-align: center;
+    }
+
+    .fn-contact-desc {
+      color: #5a7a8a;
+      font-size: 0.9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .fn-contact-btn {
+      display: inline-block;
+      background: #ffffff;
+      border: 2px solid var(--app-blue);
+      color: var(--app-blue-dark);
+      padding: 0.8rem 1.8rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .fn-footer {
+      text-align: center;
+      padding: 1.8rem;
+      font-size: 0.78rem;
+      color: #5a7a8a;
+      background: #ffffff;
+      border-top: 1px solid #b8ddf0;
+    }
+
+    /* VERSIÓN MÓVIL FINAL */
+    .fn-mobile-nav {
+      background: #ffffff;
+      border-bottom: 1px solid #b8ddf0;
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .fn-mobile-hero {
+      background: linear-gradient(160deg, #d6eeff 0%, #ffffff 60%);
+      padding: 2.2rem 1.2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 1px solid #b8ddf0;
+    }
+
+    .fn-mobile-hero .fn-photo-circle {
+      width: 140px;
+      height: 140px;
+    }
+
+    .fn-mobile-hero h1 {
+      font-size: 1.45rem;
+    }
+
+    .fn-mobile-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    /* CONTROLES INTERACTIVOS DE VISTA */
+    .filter-hidden {
+      display: none !important;
+    }
+
+    /* ESPECIFICACIONES FIGMA EN INSPECT */
+    .figma-inspector {
+      background: var(--figma-panel);
+      border: 1px solid var(--figma-border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      color: var(--figma-text-dim);
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .spec-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .spec-val {
+      color: #fff;
+      font-family: monospace;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR FIGMA -->
+  <header class="figma-topbar">
+    <div class="figma-tools">
+      <div class="figma-logo">
+        <span class="figma-badge"></span>
+        <span>Figma Board</span>
+      </div>
+      <span class="file-name">Landing_Rodrigo_Portfolio.fig</span>
+    </div>
+
+    <!-- SELECTOR DE VISTAS FIGMA -->
+    <div class="figma-btn-group">
+      <button class="figma-btn active" onclick="filterViews('all')">👁️ Mostrar Todo</button>
+      <button class="figma-btn" onclick="filterViews('wireframes')">📐 Solo Maquetados (Wireframes)</button>
+      <button class="figma-btn" onclick="filterViews('finals')">🎨 Solo Terminados (Celeste)</button>
+      <button class="figma-btn" onclick="filterViews('desktop')">💻 Solo Desktop</button>
+      <button class="figma-btn" onclick="filterViews('mobile')">📱 Solo Celular</button>
+    </div>
+
+    <div class="figma-tools">
+      <a href="index.html" class="figma-btn accent" target="_blank">🚀 Abrir Landing Real</a>
+    </div>
+  </header>
+
+  <!-- LIENZO DE TRABAJO FIGMA -->
+  <main class="figma-canvas">
+
+    <!-- ==============================================================
+         FILA 1: MAQUETADOS / WIREFRAMES (BAJA FIDELIDAD)
+         ============================================================== -->
+    <div class="view-category" id="group-wireframes">
+      <h2 class="canvas-section-title">
+        <span class="badge-label badge-wireframe">Fase 1: Wireframing</span>
+        Maquetado Estructural (Baja Fidelidad / Wireframe en Escala de Grises)
+      </h2>
+
+      <div class="frames-row" style="margin-top: 1.5rem;">
+
+        <!-- FRAME 1: WIREFRAME DESKTOP -->
+        <div class="figma-frame-wrapper view-desktop" id="frame-wf-desktop">
+          <div class="frame-header">
+            <span class="frame-title"># Desktop - Wireframe (Maquetado)</span>
+            <span class="frame-dim">1060 × 980 px</span>
+          </div>
+
+          <div class="device-desktop wireframe-view">
+            <!-- Nav Wireframe -->
+            <div class="wf-nav">
+              <div class="wf-box" style="width: 80px; height: 32px;">[LOGO RGM]</div>
+              <div style="display: flex; gap: 1rem;">
+                <div class="wf-box" style="padding: 6px 12px;">Link: Inicio</div>
+                <div class="wf-box" style="padding: 6px 12px;">Link: Proyectos</div>
+                <div class="wf-box" style="padding: 6px 12px;">Link: Habilidades</div>
+                <div class="wf-box" style="padding: 6px 12px;">Link: Contacto</div>
+              </div>
+            </div>
+
+            <!-- Hero Wireframe -->
+            <div class="wf-hero-desktop">
+              <div class="wf-placeholder-img">
+                <span style="font-size: 1.8rem;">👤</span>
+                <span>[Placeholder Foto]</span>
+                <span style="font-size: 0.65rem;">220x220 circular</span>
+              </div>
+              <div>
+                <span class="wf-tag-label">&lt;h1&gt; Título Principal</span>
+                <div class="wf-box" style="padding: 10px; font-size: 1.1rem; justify-content: flex-start; margin-bottom: 0.8rem;">
+                  Rodrigo González Morales
+                </div>
+                <span class="wf-tag-label">&lt;p.tag&gt; Carrera & Semestre</span>
+                <div class="wf-box" style="padding: 8px; justify-content: flex-start; margin-bottom: 0.8rem;">
+                  4to Cuatrimestre • Ing. Tecnologías de la Información e Innovación Digital
+                </div>
+                <span class="wf-tag-label">&lt;p.desc&gt; Descripción Personal</span>
+                <div class="wf-box" style="padding: 12px; justify-content: flex-start; margin-bottom: 1.2rem; text-align: left;">
+                  Texto descriptivo de presentación, intereses tecnológicos y enfoque académico...
+                </div>
+                <div class="wf-box" style="width: 160px; height: 38px; background: #cbd5e0; border: 2px solid #4a5568;">
+                  [Botón CTA: Ver proyectos]
+                </div>
+              </div>
+            </div>
+
+            <!-- Proyectos Wireframe -->
+            <div class="wf-section">
+              <div class="wf-section-title">
+                <span class="wf-tag-label">&lt;section#proyectos&gt;</span>
+                <strong>Título: Proyectos</strong>
+              </div>
+              <div class="wf-cards-grid">
+                <div class="wf-card">
+                  <div class="wf-box" style="width: 40px; height: 40px;">🐝</div>
+                  <div class="wf-box" style="padding: 6px; font-weight: bold;">SAM (Smart Apiary Monitoring)</div>
+                  <div class="wf-box" style="padding: 10px; font-size: 0.7rem; text-align: left;">
+                    [Descripción]: Sistema inteligente de monitoreo de colmenas en tiempo real.
+                  </div>
+                </div>
+                <div class="wf-card">
+                  <div class="wf-box" style="width: 40px; height: 40px;">⚡</div>
+                  <div class="wf-box" style="padding: 6px; font-weight: bold;">Z-Core</div>
+                  <div class="wf-box" style="padding: 10px; font-size: 0.7rem; text-align: left;">
+                    [Descripción]: Arquitectura de alto rendimiento y eficiencia computacional.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Habilidades Wireframe -->
+            <div class="wf-section" style="background: #f1f5f9;">
+              <div class="wf-section-title">
+                <span class="wf-tag-label">&lt;section#habilidades&gt;</span>
+                <strong>Habilidades Técnicas</strong>
+              </div>
+              <div class="wf-skills-grid">
+                <div class="wf-skill-badge">[🌐 HTML]</div>
+                <div class="wf-skill-badge">[🎨 CSS]</div>
+                <div class="wf-skill-badge">[⚙️ JavaScript]</div>
+                <div class="wf-skill-badge">[🔧 C]</div>
+                <div class="wf-skill-badge">[🔩 C++]</div>
+                <div class="wf-skill-badge">[☕ Java]</div>
+                <div class="wf-skill-badge">[🌐 Cisco Packet Tracer]</div>
+              </div>
+            </div>
+
+            <!-- Contacto Wireframe -->
+            <div class="wf-section">
+              <div class="wf-section-title" style="justify-content: center;">
+                <strong>Contacto</strong>
+              </div>
+              <div class="wf-contact-box">
+                <p style="font-size: 0.75rem; margin-bottom: 1rem;">Texto de invitación a contactar</p>
+                <div class="wf-box" style="padding: 10px; border: 2px dashed #4a5568;">
+                  [Email Enlace]: 253696@it2id.upchiamas.edu.mx
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align: center; padding: 1.2rem; font-size: 0.7rem; border-top: 1px dashed var(--wf-border);">
+              [Footer Semántico: &copy; Rodrigo González Morales]
+            </div>
+          </div>
+
+          <div class="figma-inspector">
+            <div class="spec-item">Grid: <span class="spec-val">12 Columnas (Layout Desktop)</span></div>
+            <div class="spec-item">Tipografía Base: <span class="spec-val">sans-serif nativa</span></div>
+            <div class="spec-item">Estado: <span class="spec-val">Wireframe Low-Fi</span></div>
+          </div>
+        </div>
+
+        <!-- FRAME 2: WIREFRAME CELULAR -->
+        <div class="figma-frame-wrapper view-mobile" id="frame-wf-mobile">
+          <div class="frame-header">
+            <span class="frame-title"># Celular - Wireframe (Maquetado)</span>
+            <span class="frame-dim">380 × 980 px (Mobile 375pt)</span>
+          </div>
+
+          <div class="device-mobile wireframe-view">
+            <div class="mobile-notch"></div>
+
+            <!-- Nav Móvil Wireframe -->
+            <div class="wf-mobile-nav">
+              <div class="wf-box" style="padding: 4px 8px;">[RGM]</div>
+              <div class="wf-box" style="width: 32px; height: 32px;">☰</div>
+            </div>
+
+            <!-- Hero Móvil Wireframe -->
+            <div class="wf-mobile-hero">
+              <div class="wf-placeholder-img">
+                <span>👤</span>
+                <span style="font-size: 0.65rem;">[Foto Perfil]</span>
+              </div>
+              <div class="wf-box" style="padding: 6px; width: 100%; font-size: 0.85rem; font-weight: bold;">
+                Rodrigo González M.
+              </div>
+              <div class="wf-box" style="padding: 6px; width: 100%; font-size: 0.7rem;">
+                4to Cuatrimestre • IT2ID
+              </div>
+              <div class="wf-box" style="width: 140px; height: 32px; background: #cbd5e0;">
+                [Ver proyectos]
+              </div>
+            </div>
+
+            <!-- Proyectos Móvil Wireframe -->
+            <div class="wf-section" style="padding: 1.5rem 1rem;">
+              <div class="wf-section-title" style="font-size: 0.95rem; margin-bottom: 1rem;">
+                <strong>Proyectos (Stack Vertical)</strong>
+              </div>
+              <div class="wf-mobile-cards">
+                <div class="wf-card" style="padding: 1rem;">
+                  <div style="font-weight: bold; font-size: 0.8rem;">🐝 SAM</div>
+                  <div class="wf-box" style="padding: 6px; font-size: 0.68rem; text-align: left;">
+                    Smart Apiary Monitoring
+                  </div>
+                </div>
+                <div class="wf-card" style="padding: 1rem;">
+                  <div style="font-weight: bold; font-size: 0.8rem;">⚡ Z-Core</div>
+                  <div class="wf-box" style="padding: 6px; font-size: 0.68rem; text-align: left;">
+                    Sistema de alto rendimiento
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills Móvil Wireframe -->
+            <div class="wf-section" style="padding: 1.5rem 1rem; background: #f1f5f9;">
+              <div style="font-size: 0.85rem; font-weight: bold; margin-bottom: 0.8rem; text-align: center;">Habilidades</div>
+              <div class="wf-skills-grid" style="justify-content: center; gap: 0.4rem;">
+                <span class="wf-skill-badge" style="font-size: 0.65rem;">HTML</span>
+                <span class="wf-skill-badge" style="font-size: 0.65rem;">CSS</span>
+                <span class="wf-skill-badge" style="font-size: 0.65rem;">JS</span>
+                <span class="wf-skill-badge" style="font-size: 0.65rem;">C</span>
+                <span class="wf-skill-badge" style="font-size: 0.65rem;">C++</span>
+                <span class="wf-skill-badge" style="font-size: 0.65rem;">Java</span>
+                <span class="wf-skill-badge" style="font-size: 0.65rem;">PacketTracer</span>
+              </div>
+            </div>
+
+            <!-- Contacto Móvil Wireframe -->
+            <div style="padding: 1.5rem 1rem; text-align: center;">
+              <div class="wf-box" style="padding: 8px; font-size: 0.7rem;">
+                ✉️ [Email Directo]
+              </div>
+            </div>
+          </div>
+
+          <div class="figma-inspector">
+            <div class="spec-item">Grid: <span class="spec-val">1 Columna (Vertical stack)</span></div>
+            <div class="spec-item">Nav: <span class="spec-val">Hamburger Menu</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ==============================================================
+         FILA 2: DISEÑO TERMINADO (ALTA FIDELIDAD: CELESTE + BLANCO)
+         ============================================================== -->
+    <div class="view-category" id="group-finals">
+      <h2 class="canvas-section-title">
+        <span class="badge-label badge-final">Fase 2: High-Fidelity UI</span>
+        Diseño Terminado (Paleta Celeste `#3aabdf` + Blanco, Tipografía Normal y Responsivo)
+      </h2>
+
+      <div class="frames-row" style="margin-top: 1.5rem;">
+
+        <!-- FRAME 3: TERMINADO DESKTOP -->
+        <div class="figma-frame-wrapper view-desktop" id="frame-fn-desktop">
+          <div class="frame-header">
+            <span class="frame-title"># Desktop - Terminado (High-Fi UI)</span>
+            <span class="frame-dim">1060 × 980 px</span>
+          </div>
+
+          <div class="device-desktop final-view">
+            <!-- Nav Final -->
+            <header class="fn-nav">
+              <a href="#inicio" class="fn-logo">RGM</a>
+              <ul class="fn-links">
+                <li><a href="#inicio" class="active">Inicio</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#habilidades">Habilidades</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+              </ul>
+            </header>
+
+            <!-- Hero Final -->
+            <section class="fn-hero">
+              <div class="fn-photo-circle">
+                <span style="font-size: 2.4rem;">👨‍💻</span>
+                <span>RGM</span>
+                <span style="font-size: 0.7rem; opacity: 0.9;">[foto.jpg]</span>
+              </div>
+              <div class="fn-hero-text">
+                <h1>Rodrigo González Morales</h1>
+                <p class="fn-hero-tag">Estudiante de Ing. Tecnologías de la Información e Innovación Digital</p>
+                <p class="fn-hero-desc">Actualmente cursando el <strong>4to cuatrimestre</strong>. Apasionado por el desarrollo web, la programación y la tecnología.</p>
+                <a href="#proyectos" class="fn-btn">Ver proyectos</a>
+              </div>
+            </section>
+
+            <!-- Proyectos Final -->
+            <section class="fn-section">
+              <h2 class="fn-section-title">Proyectos</h2>
+              <div class="fn-cards">
+                <article class="fn-card">
+                  <div class="fn-card-icon">🐝</div>
+                  <h3>SAM</h3>
+                  <p class="fn-card-sub">Smart Apiary Monitoring</p>
+                  <p>Sistema inteligente de monitoreo de colmenas que permite supervisar en tiempo real el estado de los apiarios.</p>
+                </article>
+                <article class="fn-card">
+                  <div class="fn-card-icon">⚡</div>
+                  <h3>Z-Core</h3>
+                  <p class="fn-card-sub">Sistema de alto rendimiento</p>
+                  <p>Proyecto de arquitectura robusta enfocado en rendimiento, escalabilidad y eficiencia del sistema.</p>
+                </article>
+              </div>
+            </section>
+
+            <!-- Habilidades Final -->
+            <section class="fn-section alt">
+              <h2 class="fn-section-title">Habilidades</h2>
+              <div class="fn-skills">
+                <div class="fn-skill-badge"><span>🌐</span> HTML</div>
+                <div class="fn-skill-badge"><span>🎨</span> CSS</div>
+                <div class="fn-skill-badge"><span>⚙️</span> JavaScript</div>
+                <div class="fn-skill-badge"><span>🔧</span> C</div>
+                <div class="fn-skill-badge"><span>🔩</span> C++</div>
+                <div class="fn-skill-badge"><span>☕</span> Java</div>
+                <div class="fn-skill-badge"><span>🌐</span> Cisco Packet Tracer</div>
+              </div>
+            </section>
+
+            <!-- Contacto Final -->
+            <section class="fn-section fn-contact">
+              <h2 class="fn-section-title">Contacto</h2>
+              <p class="fn-contact-desc">¿Quieres colaborar o tienes alguna pregunta? Escríbeme.</p>
+              <a href="mailto:253696@it2id.upchiamas.edu.mx" class="fn-contact-btn">
+                ✉️ 253696@it2id.upchiamas.edu.mx
+              </a>
+            </section>
+
+            <footer class="fn-footer">
+              &copy; 2026 Rodrigo González Morales — Universidad Politécnica de Chiapas
+            </footer>
+          </div>
+
+          <div class="figma-inspector">
+            <div class="spec-item">Fondo: <span class="spec-val">#f0f8ff (Celeste Suave)</span></div>
+            <div class="spec-item">Acento: <span class="spec-val">#3aabdf (Celeste Principal)</span></div>
+            <div class="spec-item">Superficie: <span class="spec-val">#ffffff (Blanco Puro)</span></div>
+            <div class="spec-item">Tipografía: <span class="spec-val">sans-serif estándar</span></div>
+          </div>
+        </div>
+
+        <!-- FRAME 4: TERMINADO CELULAR -->
+        <div class="figma-frame-wrapper view-mobile" id="frame-fn-mobile">
+          <div class="frame-header">
+            <span class="frame-title"># Celular - Terminado (High-Fi UI)</span>
+            <span class="frame-dim">380 × 980 px (Mobile 375pt)</span>
+          </div>
+
+          <div class="device-mobile final-view">
+            <div class="mobile-notch"></div>
+
+            <!-- Nav Móvil Final -->
+            <header class="fn-mobile-nav">
+              <span class="fn-logo">RGM</span>
+              <button style="background: none; border: none; font-size: 1.4rem; color: #1a1a2e; cursor: pointer;">☰</button>
+            </header>
+
+            <!-- Hero Móvil Final -->
+            <section class="fn-mobile-hero">
+              <div class="fn-photo-circle">
+                <span style="font-size: 2rem;">👨‍💻</span>
+                <span>RGM</span>
+              </div>
+              <div>
+                <h1 style="font-size: 1.35rem; font-weight: bold; margin-bottom: 0.3rem;">Rodrigo González Morales</h1>
+                <p style="color: var(--app-blue-dark); font-size: 0.78rem; font-weight: bold; margin-bottom: 0.6rem;">
+                  4to Cuatrimestre • IT2ID
+                </p>
+                <p style="color: #5a7a8a; font-size: 0.8rem; margin-bottom: 1rem; line-height: 1.4;">
+                  Estudiante de Ing. Tecnologías de la Información e Innovación Digital.
+                </p>
+                <a href="#proyectos" class="fn-btn" style="padding: 0.5rem 1.4rem; font-size: 0.8rem;">Ver proyectos</a>
+              </div>
+            </section>
+
+            <!-- Proyectos Móvil Final -->
+            <section style="padding: 1.8rem 1.2rem;">
+              <h2 style="font-size: 1.15rem; font-weight: bold; text-align: center; margin-bottom: 1.2rem;">Proyectos</h2>
+              <div class="fn-mobile-cards">
+                <article class="fn-card" style="padding: 1.2rem;">
+                  <div class="fn-card-icon" style="font-size: 1.4rem;">🐝</div>
+                  <h3 style="font-size: 1rem;">SAM</h3>
+                  <p class="fn-card-sub" style="font-size: 0.7rem;">Smart Apiary Monitoring</p>
+                  <p style="font-size: 0.8rem;">Monitoreo inteligente de colmenas en tiempo real.</p>
+                </article>
+                <article class="fn-card" style="padding: 1.2rem;">
+                  <div class="fn-card-icon" style="font-size: 1.4rem;">⚡</div>
+                  <h3 style="font-size: 1rem;">Z-Core</h3>
+                  <p class="fn-card-sub" style="font-size: 0.7rem;">Alto rendimiento</p>
+                  <p style="font-size: 0.8rem;">Arquitectura y eficiencia computacional.</p>
+                </article>
+              </div>
+            </section>
+
+            <!-- Skills Móvil Final -->
+            <section style="padding: 1.8rem 1.2rem; background: var(--app-blue-light);">
+              <h2 style="font-size: 1.1rem; font-weight: bold; text-align: center; margin-bottom: 1rem;">Habilidades</h2>
+              <div class="fn-skills" style="gap: 0.5rem;">
+                <div class="fn-skill-badge" style="font-size: 0.75rem; padding: 0.35rem 0.8rem;">🌐 HTML</div>
+                <div class="fn-skill-badge" style="font-size: 0.75rem; padding: 0.35rem 0.8rem;">🎨 CSS</div>
+                <div class="fn-skill-badge" style="font-size: 0.75rem; padding: 0.35rem 0.8rem;">⚙️ JS</div>
+                <div class="fn-skill-badge" style="font-size: 0.75rem; padding: 0.35rem 0.8rem;">🔧 C</div>
+                <div class="fn-skill-badge" style="font-size: 0.75rem; padding: 0.35rem 0.8rem;">🔩 C++</div>
+                <div class="fn-skill-badge" style="font-size: 0.75rem; padding: 0.35rem 0.8rem;">☕ Java</div>
+                <div class="fn-skill-badge" style="font-size: 0.75rem; padding: 0.35rem 0.8rem;">🌐 PacketTracer</div>
+              </div>
+            </section>
+
+            <!-- Contacto Móvil Final -->
+            <section style="padding: 1.8rem 1.2rem; text-align: center;">
+              <h2 style="font-size: 1.1rem; font-weight: bold; margin-bottom: 0.8rem;">Contacto</h2>
+              <a href="mailto:253696@it2id.upchiamas.edu.mx" class="fn-contact-btn" style="font-size: 0.75rem; padding: 0.6rem 1rem; word-break: break-all;">
+                ✉️ 253696@it2id.upchiamas.edu.mx
+              </a>
+            </section>
+          </div>
+
+          <div class="figma-inspector">
+            <div class="spec-item">Viewport: <span class="spec-val">375px @2x Retina</span></div>
+            <div class="spec-item">Touch Targets: <span class="spec-val">≥ 44px (W3C standard)</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function filterViews(mode) {
+      const buttons = document.querySelectorAll('.figma-btn');
+      buttons.forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const grpWf = document.getElementById('group-wireframes');
+      const grpFn = document.getElementById('group-finals');
+      const allDesktop = document.querySelectorAll('.view-desktop');
+      const allMobile = document.querySelectorAll('.view-mobile');
+
+      // Reset
+      grpWf.classList.remove('filter-hidden');
+      grpFn.classList.remove('filter-hidden');
+      allDesktop.forEach(el => el.classList.remove('filter-hidden'));
+      allMobile.forEach(el => el.classList.remove('filter-hidden'));
+
+      if (mode === 'wireframes') {
+        grpFn.classList.add('filter-hidden');
+      } else if (mode === 'finals') {
+        grpWf.classList.add('filter-hidden');
+      } else if (mode === 'desktop') {
+        allMobile.forEach(el => el.classList.add('filter-hidden'));
+      } else if (mode === 'mobile') {
+        allDesktop.forEach(el => el.classList.add('filter-hidden'));
+      }
+    }
+  </script>
+</body>
+</html>

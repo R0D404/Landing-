@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .border { stroke: #94a3b8; stroke-width: 1.5; stroke-dasharray: 4 4; fill: #ffffff; }
+      .box { stroke: #64748b; stroke-width: 1.5; fill: #e2e8f0; }
+      .text-title { font-family: monospace, sans-serif; font-size: 16px; font-weight: bold; fill: #1e293b; }
+      .text-sub { font-family: monospace, sans-serif; font-size: 11px; fill: #475569; }
+      .text-tag { font-family: monospace, sans-serif; font-size: 9px; font-weight: bold; fill: #64748b; }
+      .pill { rx: 12; stroke: #94a3b8; stroke-width: 1.5; fill: #e2e8f0; }
+    </style>
+  </defs>
+
+  <!-- Frame Device Background -->
+  <rect width="390" height="844" rx="36" fill="#ffffff" stroke="#334155" stroke-width="6"/>
+
+  <!-- Dynamic Island / Notch -->
+  <rect x="135" y="12" width="120" height="24" rx="12" fill="#0f172a"/>
+
+  <!-- Top label -->
+  <text x="25" y="55" class="text-tag">[FRAME: Celular Wireframe (390x844)]</text>
+
+  <!-- Nav -->
+  <rect x="20" y="65" width="350" height="45" rx="6" class="box"/>
+  <text x="35" y="93" class="text-title">[LOGO: RGM]</text>
+  <rect x="325" y="73" width="32" height="28" rx="4" class="border"/>
+  <text x="333" y="92" class="text-title" font-size="14">☰</text>
+
+  <!-- Hero Mobile -->
+  <circle cx="195" cy="175" r="50" class="box"/>
+  <line x1="160" y1="140" x2="230" y2="210" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="230" y1="140" x2="160" y2="210" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="160" y="180" class="text-tag">[FOTO]</text>
+
+  <text x="195" y="245" class="text-title" text-anchor="middle">Rodrigo González M.</text>
+  <rect x="50" y="255" width="290" height="20" rx="4" class="box"/>
+  <text x="195" y="269" class="text-tag" text-anchor="middle">4TO CUATRIMESTRE • IT2ID</text>
+
+  <rect x="40" y="282" width="310" height="34" rx="4" class="border"/>
+  <text x="195" y="303" class="text-sub" text-anchor="middle">Estudiante Ing. TI e Innovación Digital</text>
+
+  <rect x="125" y="325" width="140" height="30" rx="15" fill="#475569"/>
+  <text x="195" y="345" font-family="monospace, sans-serif" font-size="11" font-weight: bold; fill="#ffffff" text-anchor="middle">[Ver proyectos]</text>
+
+  <!-- Proyectos Mobile -->
+  <text x="195" y="380" class="text-title" text-anchor="middle">Proyectos</text>
+  <line x1="170" y1="387" x2="220" y2="387" stroke="#475569" stroke-width="2"/>
+
+  <!-- Card 1 -->
+  <rect x="25" y="400" width="340" height="85" rx="6" class="box"/>
+  <text x="40" y="425" class="text-title" font-size="13">🐝 SAM (Smart Apiary Monitoring)</text>
+  <rect x="40" y="435" width="310" height="38" rx="4" class="border"/>
+  <text x="48" y="458" class="text-sub">Monitoreo inteligente de colmenas.</text>
+
+  <!-- Card 2 -->
+  <rect x="25" y="495" width="340" height="85" rx="6" class="box"/>
+  <text x="40" y="520" class="text-title" font-size="13">⚡ Z-Core (High Performance)</text>
+  <rect x="40" y="530" width="310" height="38" rx="4" class="border"/>
+  <text x="48" y="553" class="text-sub">Arquitectura robusta y escalabilidad.</text>
+
+  <!-- Habilidades Mobile -->
+  <rect x="20" y="595" width="350" height="110" rx="6" class="border"/>
+  <text x="195" y="618" class="text-title" font-size="13" text-anchor="middle">Habilidades</text>
+
+  <g transform="translate(35, 630)">
+    <rect x="0" y="0" width="60" height="24" class="pill"/>
+    <text x="12" y="16" class="text-tag">HTML</text>
+    <rect x="68" y="0" width="55" height="24" class="pill"/>
+    <text x="82" y="16" class="text-tag">CSS</text>
+    <rect x="130" y="0" width="50" height="24" class="pill"/>
+    <text x="146" y="16" class="text-tag">JS</text>
+    <rect x="187" y="0" width="45" height="24" class="pill"/>
+    <text x="203" y="16" class="text-tag">C</text>
+    <rect x="238" y="0" width="52" height="24" class="pill"/>
+    <text x="252" y="16" class="text-tag">C++</text>
+    <rect x="296" y="0" width="55" height="24" class="pill"/>
+    <text x="307" y="16" class="text-tag">Java</text>
+  </g>
+  <rect x="120" y="665" width="150" height="24" class="pill"/>
+  <text x="195" y="681" class="text-tag" text-anchor="middle">Cisco Packet Tracer</text>
+
+  <!-- Contacto Mobile -->
+  <text x="195" y="730" class="text-title" font-size="13" text-anchor="middle">Contacto</text>
+  <rect x="35" y="742" width="320" height="40" rx="6" class="box"/>
+  <text x="195" y="767" class="text-tag" text-anchor="middle">✉️ 253696@it2id.upchiamas.edu.mx</text>
+
+  <!-- Home bar indicator -->
+  <rect x="125" y="825" width="140" height="4" rx="2" fill="#0f172a"/>
+</svg>
